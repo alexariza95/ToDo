@@ -11,8 +11,9 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $tasks = [
-            'Aprender symfony',
+            'Aprender masatu',
             'Leer SIF',
+            'Ganar un fornite',
             'Abrir cofre de eleccion',
         ];
 
