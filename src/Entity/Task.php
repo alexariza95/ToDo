@@ -46,6 +46,7 @@ class Task
      * @var User
      * @ORM\ManyToOne(targetEntity="App\Entity\User")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank()
      */
     private $owner;
 
