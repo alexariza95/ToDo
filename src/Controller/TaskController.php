@@ -3,10 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Task;
+use App\Event\TaskEvent;
 use App\Form\TaskType;
 use App\Repository\TaskRepository;
+use App\Services\Message;
 use Doctrine\Common\Annotations\Reader;
 use http\Env\Request;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -33,7 +36,7 @@ class TaskController extends Controller
      * @Route("/task/new", name="task_new")
      */
 
-    public function new(\Symfony\Component\HttpFoundation\Request $request)
+    public function new(\Symfony\Component\HttpFoundation\Request $request, EventDispatcherInterface $dispatcher)
     {
         $user = $this->getUser();
         $task = new Task();
@@ -48,6 +51,7 @@ class TaskController extends Controller
             $om->flush();
 
             $this->addFlash('positive', 'Task Created');
+            $dispatcher->dispatch("task.created", new TaskEvent($task));
 
             return $this->redirectToRoute('homepage');
         }
